@@ -247,3 +247,6 @@ footer>div{font-size:13px}
 .inquiry-meta{font-size:12px}
 @media(max-width:760px){.topbar nav{font-size:12px}}
 @media(max-width:560px){.topbar nav{font-size:12px}.lead{font-size:17px}.section-heading h2,.about-section h2{font-size:clamp(32px,8vw,40px)}}
+.home-hero .lead{font-size:18px}
+.home-contact p{font-size:15px;line-height:1.75}
+@media(max-width:560px){.home-hero .lead{font-size:16px}.home-contact p{font-size:14px}}
