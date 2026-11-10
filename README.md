@@ -22,7 +22,7 @@ Use a Gmail App Password for the sender account, not its normal password. Google
 
 ## Database and hosting
 
-The local server uses SQLite in `data/store.sqlite`. To host the site with a managed PostgreSQL database, set `DATABASE_URL` and, if required by your provider, `DATABASE_SSL=true` in the hosting environment. Set `ADMIN_PASSWORD`, `SESSION_SECRET`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `INQUIRY_TO_EMAIL`, and `BASE_URL` as private host environment variables. Do not commit real secrets.
+The local server uses SQLite in `data/store.sqlite`. To host the site with a managed PostgreSQL database, set `DATABASE_URL` and, if required by your provider, `DATABASE_SSL=true` in the hosting environment. For Supabase, download the CA certificate from **Database Settings → SSL Configuration** and set its contents as `DATABASE_SSL_CA` in the host environment so the server verifies the database certificate. Set `ADMIN_PASSWORD`, `SESSION_SECRET`, `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `INQUIRY_TO_EMAIL`, and `BASE_URL` as private host environment variables. Do not commit real secrets.
 
 The website needs Node.js 22.5 or newer. Run `pnpm install` (or `npm install`) and `pnpm start` (or `npm start`) from the project directory. On Windows, use `RUN-WEBSITE.bat` for the local setup.
 
@@ -38,4 +38,3 @@ The website needs Node.js 22.5 or newer. Run `pnpm install` (or `npm install`) a
 - `CHANGELOG.md`: project changes from initial redesign through current work
 
 The public `/shop.html` route redirects to Home. Legacy product/payment API code is not linked from the public website.
-
