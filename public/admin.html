@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#171916"><title>Admin — Rawandale Architects</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/style.css?v=20261110-gold-accents"></head>
+<body class="admin-page">
+  <header class="topbar"><a class="brand" href="/" aria-label="Rawandale Architects home"><img class="brand-logo" src="/images/rawandale-logo-mark.png" alt="Rawandale Architects"></a><a class="header-cta" href="/">← Back to website</a></header>
+  <main class="admin-wrap">
+    <p class="eyebrow">PRIVATE STUDIO AREA</p>
+    <h1>Project enquiries</h1>
+    <p class="admin-intro">Review new messages from the website and update each enquiry as you follow up.</p>
+    <section id="login-panel" class="admin-panel login-panel"><h2>Admin sign in</h2><form id="login-form"><label for="password">Password</label><div class="login-row"><input id="password" type="password" autocomplete="current-password" placeholder="Enter admin password" required><button class="button dark">Sign in <span>↗</span></button></div></form><p id="login-msg" class="status" role="alert"></p></section>
+    <section id="dashboard" class="hidden">
+      <div class="admin-toolbar"><div><p class="eyebrow">INQUIRY INBOX</p><h2>Every project starts somewhere.</h2></div><div><button id="refresh" class="button outline">Refresh</button> <button id="logout" class="button outline">Sign out</button></div></div>
+      <div class="inquiry-summary"><div><small>TOTAL</small><strong id="count-total">0</strong></div><div><small>NEW</small><strong id="count-new">0</strong></div><div><small>CONTACTED</small><strong id="count-contacted">0</strong></div></div>
+      <div id="admin-inquiries" class="admin-inquiries"><p>Loading enquiries…</p></div>
+      <p id="admin-message" class="status" role="status"></p>
+    </section>
+  </main>
+  <script src="/admin.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

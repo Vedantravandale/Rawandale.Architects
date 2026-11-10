@@ -1,0 +1,6 @@
+node_modules/
+.env
+data/
+private-files/*
+!private-files/.gitkeep
+ADMIN-LOGIN.txt
