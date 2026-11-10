@@ -253,16 +253,20 @@ footer>div{font-size:13px}
 
 /* Anime walkers and their Admin control */
 .anime-stage{position:fixed;inset:0;z-index:30;overflow:hidden;pointer-events:none}
-.anime-walker{position:absolute;left:0;bottom:8px;width:76px;height:100px;filter:drop-shadow(0 3px 2px #17171716);animation:anime-walk-across 30s linear infinite}
+.anime-walker{position:absolute;left:-110px;bottom:8px;width:76px;height:100px;padding:0;border:0;background:transparent;filter:drop-shadow(0 3px 2px #17171716);animation:anime-walk-across 30s linear infinite;pointer-events:auto;cursor:grab;touch-action:none;user-select:none}
+.anime-walker:focus-visible{outline:2px solid #a77d42;outline-offset:3px;border-radius:8px}
+.anime-walker.is-moving{animation:none!important}
+.anime-walker.is-dragging{cursor:grabbing}
 .anime-walker svg{display:block;width:100%;height:100%;overflow:visible}
 .anime-walker .walker-bob{transform-box:fill-box;transform-origin:center bottom;animation:anime-bob .34s ease-in-out infinite alternate}
 .anime-walker .walker-leg,.anime-walker .walker-arm{transform-box:fill-box;transform-origin:top center}
 .anime-walker .leg-back,.anime-walker .arm-front{animation:anime-step .34s ease-in-out infinite alternate}
 .anime-walker .leg-front,.anime-walker .arm-back{animation:anime-step .34s ease-in-out infinite alternate-reverse}
-.anime-walker-b{animation-duration:38s;animation-delay:-18s}
-.anime-walker-b svg{transform:scale(.88);transform-origin:center bottom}
-.anime-walker-b .walker-hair{fill:#5a5a55}
-@keyframes anime-walk-across{from{transform:translateX(-110px)}to{transform:translateX(calc(100vw + 110px))}}
+.walker-companion{animation-duration:38s;animation-delay:-18s}
+.walker-companion svg{transform:scale(.88);transform-origin:center bottom}
+.companion-glasses{display:block}
+.anime-hint{position:absolute;right:16px;bottom:14px;padding:8px 11px;border:1px solid #d9d9d3;border-radius:999px;background:#fffefae8;color:#42423e;font:11px/1.2 var(--font-body);box-shadow:0 3px 12px #17171712}
+@keyframes anime-walk-across{from{left:-110px}to{left:calc(100vw + 110px)}}
 @keyframes anime-bob{from{transform:translateY(0)}to{transform:translateY(-2px)}}
 @keyframes anime-step{from{transform:rotate(-13deg)}to{transform:rotate(13deg)}}
 .anime-admin{max-width:none;display:flex;align-items:center;justify-content:space-between;gap:28px;margin:0 0 22px;padding:24px 26px;border-color:#ded6c7;background:linear-gradient(110deg,#fffefa,#f3f0e8)}
@@ -273,5 +277,5 @@ footer>div{font-size:13px}
 .anime-admin #anime-toggle{min-width:150px;justify-content:center;white-space:nowrap}
 .anime-admin #anime-toggle[aria-pressed="true"]{background:#56564f}
 .anime-admin #anime-toggle:disabled{opacity:.65;cursor:wait}
-@media(max-width:560px){.anime-admin{align-items:flex-start;flex-direction:column;padding:20px}.anime-admin #anime-toggle{width:100%}.anime-walker{width:58px;height:78px;bottom:5px}}
+@media(max-width:560px){.anime-admin{align-items:flex-start;flex-direction:column;padding:20px}.anime-admin #anime-toggle{width:100%}.anime-walker{width:58px;height:78px;bottom:5px}.anime-hint{right:10px;bottom:10px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.anime-stage{display:none!important}}
