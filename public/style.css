@@ -250,3 +250,15 @@ footer>div{font-size:13px}
 .home-hero .lead{font-size:18px}
 .home-contact p{font-size:15px;line-height:1.75}
 @media(max-width:560px){.home-hero .lead{font-size:16px}.home-contact p{font-size:14px}}
+
+/* Admin control for the seasonal site-wide display */
+.diwali-canvas{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.78}
+.festive-admin{max-width:none;display:flex;align-items:center;justify-content:space-between;gap:28px;margin:0 0 22px;padding:24px 26px;border-color:#ded6c7;background:linear-gradient(110deg,#fffefa,#f3f0e8)}
+.festive-admin h2{margin:0 0 8px;color:#181818}
+.festive-admin p:not(.eyebrow){max-width:650px;margin:0;color:#666;font-size:14px;line-height:1.65}
+.festive-admin .eyebrow{margin:0 0 8px;color:#876d4a}
+.festive-admin .festive-status{margin-top:12px!important;font-size:13px!important;color:#777!important}
+.festive-admin #festive-toggle{min-width:150px;justify-content:center;white-space:nowrap}
+.festive-admin #festive-toggle[aria-pressed="true"]{background:#56564f}
+.festive-admin #festive-toggle:disabled{opacity:.65;cursor:wait}
+@media(max-width:560px){.festive-admin{align-items:flex-start;flex-direction:column;padding:20px}.festive-admin #festive-toggle{width:100%}}

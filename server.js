@@ -71,6 +71,11 @@ app.use(express.urlencoded({extended:false}));
 app.use("/api", rateLimit({windowMs:60*1000,limit:120,standardHeaders:true,legacyHeaders:false}));
 app.use(express.static(path.join(ROOT,"public")));
 app.get("/api/config",(req,res)=>res.json({keyId:hasRazorpay()?process.env.RAZORPAY_KEY_ID:null,currency:process.env.CURRENCY||"INR",mode:hasRazorpay()?"razorpay-test-or-live-keys-configured":"demo-preview",liveReady:hasRazorpay()}));
+app.get("/api/site-settings",asyncRoute(async (req,res)=>{
+  const setting=await database.getSiteSetting("diwali_festive");
+  res.setHeader("Cache-Control","no-store");
+  res.json({diwaliFestive:setting?.value==="true"});
+}));
 app.get("/api/products",asyncRoute(async (req,res)=>res.json((await database.listProducts(true)).map(cleanProduct))));
 app.post("/api/inquiries",rateLimit({windowMs:15*60*1000,limit:5,standardHeaders:true,legacyHeaders:false}),asyncRoute(async (req,res)=>{
   const body=req.body||{};
@@ -104,6 +109,15 @@ app.post("/api/admin/logout",adminOnly,asyncRoute(async (req,res)=>{
   res.setHeader("Set-Cookie",`${sessionCookie}=; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`); res.json({ok:true});
 }));
 app.get("/api/admin/session",adminOnly,(req,res)=>res.json({ok:true}));
+app.get("/api/admin/site-settings",adminOnly,asyncRoute(async (req,res)=>{
+  const setting=await database.getSiteSetting("diwali_festive");
+  res.json({diwaliFestive:setting?.value==="true"});
+}));
+app.patch("/api/admin/site-settings",adminOnly,asyncRoute(async (req,res)=>{
+  if(typeof req.body?.diwaliFestive!=="boolean") return res.status(400).json({error:"Choose whether the Diwali display is on or off."});
+  await database.setSiteSetting("diwali_festive",String(req.body.diwaliFestive));
+  res.json({ok:true,diwaliFestive:req.body.diwaliFestive});
+}));
 app.get("/api/admin/products",adminOnly,asyncRoute(async (req,res)=>res.json(await database.listProducts())));
 app.get("/api/admin/orders",adminOnly,asyncRoute(async (req,res)=>res.json((await database.listOrders()).map(o=>({...o,downloadToken:undefined})))));
 app.get("/api/admin/inquiries",adminOnly,asyncRoute(async (req,res)=>res.json(await database.listInquiries())));
@@ -208,3 +222,4 @@ database.init(defaultProducts).then(()=>{
   process.once("SIGINT",shutdown);
   process.once("SIGTERM",shutdown);
 }).catch(error=>{console.error("Database initialization failed:",error.message);process.exitCode=1;});
+

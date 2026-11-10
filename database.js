@@ -127,9 +127,14 @@ class StoreDatabase {
         created_at TEXT NOT NULL
       );
       CREATE INDEX IF NOT EXISTS inquiries_created_at_idx ON inquiries(created_at);
+      CREATE TABLE IF NOT EXISTS site_settings (
+        key TEXT PRIMARY KEY,
+        value TEXT NOT NULL
+      );
     `);
 
     const migration = await this.migrationData(defaultProducts);
+    await this.query("INSERT INTO site_settings (key,value) VALUES (?,?) ON CONFLICT(key) DO NOTHING", ["diwali_festive", "false"]);
     const productCount = await this.one("SELECT COUNT(*) AS count FROM products");
     if (Number(productCount.count) === 0) {
       for (const p of migration.products) {
@@ -213,6 +218,14 @@ class StoreDatabase {
     return this.query("DELETE FROM admin_sessions WHERE token_hash=?", [tokenHash]);
   }
 
+  async getSiteSetting(key) {
+    return this.one("SELECT value FROM site_settings WHERE key=?", [key]);
+  }
+
+  async setSiteSetting(key, value) {
+    return this.query("INSERT INTO site_settings (key,value) VALUES (?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", [key,value]);
+  }
+
   async deactivateProduct(id) {
     return this.query("UPDATE products SET active=0 WHERE id=?", [id]);
   }
@@ -224,3 +237,4 @@ class StoreDatabase {
 }
 
 module.exports = { StoreDatabase };
+
