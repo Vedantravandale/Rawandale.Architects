@@ -9,9 +9,19 @@ class StoreDatabase {
     this.sqlitePath = path.join(dataDir, "store.sqlite");
     this.isPostgres = Boolean(process.env.DATABASE_URL);
     this.sqlite = this.isPostgres ? null : new DatabaseSync(this.sqlitePath);
+    const sslCa = String(process.env.DATABASE_SSL_CA || "").replace(/\\n/g, "\n");
+    let connectionString = process.env.DATABASE_URL;
+    if (this.isPostgres && sslCa) {
+      // Keep SSL options out of the URI so node-postgres doesn't override this CA config.
+      const parsedUrl = new URL(connectionString);
+      ["sslmode", "sslrootcert", "sslcert", "sslkey"].forEach(key => parsedUrl.searchParams.delete(key));
+      connectionString = parsedUrl.toString();
+    }
     this.pool = this.isPostgres ? new Pool({
-      connectionString: process.env.DATABASE_URL,
-      ssl: process.env.DATABASE_SSL === "true" ? true : undefined,
+      connectionString,
+      ssl: process.env.DATABASE_SSL === "true"
+        ? (sslCa ? { ca: sslCa, rejectUnauthorized: true } : true)
+        : undefined,
       max: 10,
       idleTimeoutMillis: 30000,
       connectionTimeoutMillis: 5000
