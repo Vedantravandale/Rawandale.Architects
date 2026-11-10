@@ -134,7 +134,8 @@ class StoreDatabase {
     `);
 
     const migration = await this.migrationData(defaultProducts);
-    await this.query("INSERT INTO site_settings (key,value) VALUES (?,?) ON CONFLICT(key) DO NOTHING", ["diwali_festive", "false"]);
+    await this.query("DELETE FROM site_settings WHERE key=?", ["diwali_festive"]);
+    await this.query("INSERT INTO site_settings (key,value) VALUES (?,?) ON CONFLICT(key) DO NOTHING", ["anime_display", "true"]);
     const productCount = await this.one("SELECT COUNT(*) AS count FROM products");
     if (Number(productCount.count) === 0) {
       for (const p of migration.products) {

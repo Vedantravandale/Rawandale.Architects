@@ -72,9 +72,9 @@ app.use("/api", rateLimit({windowMs:60*1000,limit:120,standardHeaders:true,legac
 app.use(express.static(path.join(ROOT,"public")));
 app.get("/api/config",(req,res)=>res.json({keyId:hasRazorpay()?process.env.RAZORPAY_KEY_ID:null,currency:process.env.CURRENCY||"INR",mode:hasRazorpay()?"razorpay-test-or-live-keys-configured":"demo-preview",liveReady:hasRazorpay()}));
 app.get("/api/site-settings",asyncRoute(async (req,res)=>{
-  const setting=await database.getSiteSetting("diwali_festive");
+  const setting=await database.getSiteSetting("anime_display");
   res.setHeader("Cache-Control","no-store");
-  res.json({diwaliFestive:setting?.value==="true"});
+  res.json({animeDisplay:setting?.value==="true"});
 }));
 app.get("/api/products",asyncRoute(async (req,res)=>res.json((await database.listProducts(true)).map(cleanProduct))));
 app.post("/api/inquiries",rateLimit({windowMs:15*60*1000,limit:5,standardHeaders:true,legacyHeaders:false}),asyncRoute(async (req,res)=>{
@@ -110,13 +110,13 @@ app.post("/api/admin/logout",adminOnly,asyncRoute(async (req,res)=>{
 }));
 app.get("/api/admin/session",adminOnly,(req,res)=>res.json({ok:true}));
 app.get("/api/admin/site-settings",adminOnly,asyncRoute(async (req,res)=>{
-  const setting=await database.getSiteSetting("diwali_festive");
-  res.json({diwaliFestive:setting?.value==="true"});
+  const setting=await database.getSiteSetting("anime_display");
+  res.json({animeDisplay:setting?.value==="true"});
 }));
 app.patch("/api/admin/site-settings",adminOnly,asyncRoute(async (req,res)=>{
-  if(typeof req.body?.diwaliFestive!=="boolean") return res.status(400).json({error:"Choose whether the Diwali display is on or off."});
-  await database.setSiteSetting("diwali_festive",String(req.body.diwaliFestive));
-  res.json({ok:true,diwaliFestive:req.body.diwaliFestive});
+  if(typeof req.body?.animeDisplay!=="boolean") return res.status(400).json({error:"Choose whether the anime display is on or off."});
+  await database.setSiteSetting("anime_display",String(req.body.animeDisplay));
+  res.json({ok:true,animeDisplay:req.body.animeDisplay});
 }));
 app.get("/api/admin/products",adminOnly,asyncRoute(async (req,res)=>res.json(await database.listProducts())));
 app.get("/api/admin/orders",adminOnly,asyncRoute(async (req,res)=>res.json((await database.listOrders()).map(o=>({...o,downloadToken:undefined})))));
